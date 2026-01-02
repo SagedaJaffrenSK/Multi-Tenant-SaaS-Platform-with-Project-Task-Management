@@ -318,3 +318,9 @@ You are officially at the **submission stage** 🎓
 ## 🎥 Demo Video
 YouTube Demo (Unlisted):  
 https://youtube.com/your-video-link
+
+## Evaluation Notes
+- Entities (users, tenants, projects, tasks) are created via APIs to demonstrate the full SaaS flow.
+- Test credentials are provided as references and are not auto-seeded.
+- Screenshots of API calls and Docker execution are included as part of the submission.
+
