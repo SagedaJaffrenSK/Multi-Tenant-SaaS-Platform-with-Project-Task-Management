@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   database:
     image: postgres:15
@@ -9,7 +11,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./database/init:/docker-entrypoint-initdb.d
+      - db_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -33,6 +35,11 @@ services:
     depends_on:
       database:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   frontend:
     build: ./frontend
@@ -40,7 +47,10 @@ services:
     ports:
       - "3000:3000"
     environment:
-      VITE_API_URL: http://backend:5000/api
+      REACT_APP_API_URL: http://backend:5000/api
     depends_on:
       backend:
-        condition: service_started
+        condition: service_healthy
+
+volumes:
+  db_data:

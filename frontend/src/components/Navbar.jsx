@@ -1,15 +1,8 @@
-import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
-import { getMe } from "../api/dashboard";
+import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
-  const { logout } = useContext(AuthContext);
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    getMe().then(res => setUser(res.data));
-  }, []);
+  const { user, logout } = useAuth();
 
   if (!user) return null;
 

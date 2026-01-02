@@ -1,12 +1,10 @@
 FROM node:18-alpine
 
-WORKDIR /app
+# ✅ ADD THIS LINE
+RUN apk add --no-cache curl
 
+WORKDIR /app
 COPY package*.json ./
 RUN npm install
-
 COPY . .
-
-EXPOSE 5000
-
-CMD ["sh", "-c", "node src/server.js"]
+CMD ["npm", "start"]

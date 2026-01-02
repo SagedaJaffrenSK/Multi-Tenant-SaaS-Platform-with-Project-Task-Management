@@ -1,3 +1,4 @@
+// app.js
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -19,7 +20,7 @@ app.use(cors({
 
 app.use(express.json());
 
-/* 🔥 HEALTH CHECK — MUST BE BEFORE ROUTES */
+/* 🔥 HEALTH CHECK */
 app.get("/api/health", async (req, res) => {
   try {
     await pool.query("SELECT 1");

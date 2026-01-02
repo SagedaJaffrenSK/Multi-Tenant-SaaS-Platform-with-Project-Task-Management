@@ -45,7 +45,6 @@ export default function Dashboard() {
       <Navbar />
 
       <div className="dashboard">
-        {/* Stats */}
         <div className="stats-grid">
           <StatCard label="Total Projects" value={stats.totalProjects} />
           <StatCard label="Total Tasks" value={stats.totalTasks} />
@@ -53,7 +52,6 @@ export default function Dashboard() {
           <StatCard label="Pending Tasks" value={stats.pendingTasks} />
         </div>
 
-        {/* Recent Projects */}
         <section>
           <h3>Recent Projects</h3>
           {projects.map(p => (
@@ -65,7 +63,6 @@ export default function Dashboard() {
           ))}
         </section>
 
-        {/* My Tasks placeholder */}
         <section>
           <h3>My Tasks</h3>
           <p>Task list will appear here</p>
@@ -73,8 +70,4 @@ export default function Dashboard() {
       </div>
     </>
   );
-}
-
-export default function Dashboard() {
-  return <h2>Welcome to Dashboard</h2>;
 }

@@ -1,17 +1,18 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { loginUser } from "../api/auth";
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  const { login } = useAuth(); // ✅ INSIDE component
 
   const [form, setForm] = useState({
     email: "",
     password: "",
     tenantSubdomain: "",
   });
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -41,13 +42,34 @@ export default function Login() {
       {error && <p className="error">{error}</p>}
 
       <form onSubmit={handleSubmit}>
-        <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-        <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-        <input name="tenantSubdomain" placeholder="Tenant Subdomain" onChange={handleChange} required />
-        <button disabled={loading}>{loading ? "Logging in..." : "Login"}</button>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="tenantSubdomain"
+          placeholder="Tenant Subdomain"
+          onChange={handleChange}
+          required
+        />
+        <button disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
       </form>
 
-      <p>No account? <Link to="/register">Register</Link></p>
+      <p>
+        No account? <Link to="/register">Register</Link>
+      </p>
     </div>
   );
 }
