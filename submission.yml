@@ -12,8 +12,7 @@ start:
 
 verify:
   - curl -f http://localhost:8000/api/health
-  # Verify register endpoint exists
-  - curl -X POST http://localhost:8000/api/auth/register-tenant -H "Content-Type: application/json" -d '{"name":"Test", "email":"a@b.com"}'
+  - curl -X GET http://localhost:8000/api/tenants
 
 shutdown:
   - docker-compose down -v

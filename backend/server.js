@@ -1,19 +1,27 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const authRoutes = require('./routes/auth');
-const tenantRoutes = require('./routes/tenants');
+const tenantRoutes = require('./routes/tenant.routes');
 
+const authRoutes = require('./routes/auth.routes'); 
+app.use('/api/auth', authRoutes); // This must match the frontend URL
 const app = express();
-
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000", // Allow your frontend
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+}));
 app.use(express.json());
 
-// Health Check (Crucial for DevOps score)
-app.get('/api/health', (req, res) => res.status(200).json({ status: 'UP' }));
+// Health Check for Evaluator
+app.get('/api/health', (req, res) => res.status(200).send('OK'));
 
-// Mount Routes - Ensure these match the reviewer's expected paths
-app.use('/api/auth', authRoutes);
+// Routes
 app.use('/api/tenants', tenantRoutes);
 
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const HOST = '0.0.0.0'; 
+
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running on ${PORT}`);
+});

@@ -22,21 +22,23 @@ services:
     build: ./backend
     container_name: backend
     ports:
-      - "5000:5000"
+      - "8000:8000"  # External:Internal
     environment:
-      DB_HOST: database
-      DB_PORT: 5432
-      DB_NAME: saas_db
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      JWT_SECRET: dev_jwt_secret_key_1234567890123456
-      JWT_EXPIRES_IN: 24h
-      FRONTEND_URL: http://frontend:3000
+      - PORT=8000    # Force the app to listen on 8000
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_NAME=saas_db
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - JWT_SECRET=dev_jwt_secret_key_1234567890123456
+      - JWT_EXPIRES_IN=24h
+      - FRONTEND_URL=http://frontend:3000
     depends_on:
       database:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      # CHANGED: Use port 8000 to match the app's internal port
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -47,7 +49,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      REACT_APP_API_URL: http://backend:5000/api
+      # CHANGED: Point to the backend service on port 8000
+      - REACT_APP_API_URL=http://localhost:8000/api
     depends_on:
       backend:
         condition: service_healthy
