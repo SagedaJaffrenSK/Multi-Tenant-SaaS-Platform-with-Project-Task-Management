@@ -1,0 +1,19 @@
+version: "1.0"
+services:
+  api: 8000
+  frontend: 3000
+  db: 5432
+
+setup:
+  - docker-compose build
+
+start:
+  - docker-compose up -d
+
+verify:
+  - curl -f http://localhost:8000/api/health
+  # Verify register endpoint exists
+  - curl -X POST http://localhost:8000/api/auth/register-tenant -H "Content-Type: application/json" -d '{"name":"Test", "email":"a@b.com"}'
+
+shutdown:
+  - docker-compose down -v
